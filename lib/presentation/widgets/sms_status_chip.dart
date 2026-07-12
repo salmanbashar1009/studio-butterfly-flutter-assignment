@@ -5,10 +5,7 @@ import '../../domain/models/sms_status.dart';
 class SmsStatusChip extends StatelessWidget {
   final SmsStatus status;
 
-  const SmsStatusChip({
-    super.key,
-    required this.status,
-  });
+  const SmsStatusChip({super.key, required this.status});
 
   @override
   Widget build(BuildContext context) {

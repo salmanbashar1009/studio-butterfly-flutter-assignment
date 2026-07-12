@@ -25,7 +25,8 @@ class SmsHistoryList extends StatelessWidget {
           prev.messages != curr.messages ||
           prev.historyErrorMessage != curr.historyErrorMessage,
       builder: (context, state) {
-        if (state.historyStatus == HistoryStatus.loading && state.messages.isEmpty) {
+        if (state.historyStatus == HistoryStatus.loading &&
+            state.messages.isEmpty) {
           return const Center(
             child: Padding(
               padding: EdgeInsets.all(AppSpacing.l),
@@ -34,20 +35,25 @@ class SmsHistoryList extends StatelessWidget {
           );
         }
 
-        if (state.historyStatus == HistoryStatus.error && state.messages.isEmpty) {
+        if (state.historyStatus == HistoryStatus.error &&
+            state.messages.isEmpty) {
           return Center(
             child: Padding(
               padding: const EdgeInsets.all(AppSpacing.l),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.wifi_off_outlined, size: 48, color: Colors.grey),
+                  const Icon(
+                    Icons.wifi_off_outlined,
+                    size: 48,
+                    color: Colors.grey,
+                  ),
                   const SizedBox(height: AppSpacing.s),
                   Text(
                     'Failed to load message log',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Text(
@@ -57,7 +63,9 @@ class SmsHistoryList extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpacing.m),
                   OutlinedButton.icon(
-                    onPressed: () => context.read<SmsConsoleCubit>().loadHistory(isRefresh: true),
+                    onPressed: () => context
+                        .read<SmsConsoleCubit>()
+                        .loadHistory(isRefresh: true),
                     icon: const Icon(Icons.refresh),
                     label: const Text('Retry'),
                   ),

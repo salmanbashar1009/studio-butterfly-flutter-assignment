@@ -4,14 +4,17 @@ class PaginatedMessages {
   final List<SmsMessage> items;
   final String? nextCursor;
 
-  PaginatedMessages({
-    required this.items,
-    this.nextCursor,
-  });
+  PaginatedMessages({required this.items, this.nextCursor});
 
-  factory PaginatedMessages.fromJson(Map<String, dynamic> json, [String defaultCurrency = 'EUR']) {
+  factory PaginatedMessages.fromJson(
+    Map<String, dynamic> json, [
+    String defaultCurrency = 'EUR',
+  ]) {
     final list = (json['items'] as List<dynamic>? ?? [])
-        .map((e) => SmsMessage.fromJson(e as Map<String, dynamic>, defaultCurrency))
+        .map(
+          (e) =>
+              SmsMessage.fromJson(e as Map<String, dynamic>, defaultCurrency),
+        )
         .toList();
     return PaginatedMessages(
       items: list,

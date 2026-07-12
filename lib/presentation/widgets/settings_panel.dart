@@ -11,14 +11,16 @@ class SettingsPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<SmsConsoleCubit>();
-    
+
     return BlocBuilder<SmsConsoleCubit, SmsConsoleState>(
       buildWhen: (prev, curr) =>
           prev.tenantId != curr.tenantId || prev.serverMode != curr.serverMode,
       builder: (context, state) {
         return Card(
           elevation: 2,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(AppSpacing.m),
             child: Column(
@@ -27,8 +29,8 @@ class SettingsPanel extends StatelessWidget {
                 Text(
                   'Environment Settings',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.s),
                 DropdownButtonFormField<String>(

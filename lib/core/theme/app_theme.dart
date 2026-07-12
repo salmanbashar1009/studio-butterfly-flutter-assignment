@@ -13,7 +13,9 @@ class AppTheme {
   static const Color primaryLight = Color(0xFF6366F1); // Indigo Accent
   static const Color primaryDark = Color(0xFF818CF8);
 
-  static const Color backgroundLight = Color(0xFFF8FAFC); // Cool slate background
+  static const Color backgroundLight = Color(
+    0xFFF8FAFC,
+  ); // Cool slate background
   static const Color backgroundDark = Color(0xFF0F172A); // Dark navy background
 
   static const Color cardLight = Colors.white;

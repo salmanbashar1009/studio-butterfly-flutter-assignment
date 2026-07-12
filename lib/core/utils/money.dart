@@ -65,7 +65,10 @@ class Money {
   }
 
   Money operator *(int count) {
-    return Money(valueInBaseUnits: valueInBaseUnits * count, currency: currency);
+    return Money(
+      valueInBaseUnits: valueInBaseUnits * count,
+      currency: currency,
+    );
   }
 
   // ---------------------------------------------------------------------------

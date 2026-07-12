@@ -22,9 +22,7 @@ class CostCard extends StatelessWidget {
       return const Card(
         child: Padding(
           padding: EdgeInsets.all(AppSpacing.l),
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
+          child: Center(child: CircularProgressIndicator()),
         ),
       );
     }
@@ -40,9 +38,9 @@ class CostCard extends StatelessWidget {
               const SizedBox(height: AppSpacing.s),
               Text(
                 'Failed to load cost breakdown',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: AppSpacing.xs),
               Text(
@@ -70,7 +68,11 @@ class CostCard extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.pie_chart_outline, color: Colors.grey.shade400, size: 48),
+              Icon(
+                Icons.pie_chart_outline,
+                color: Colors.grey.shade400,
+                size: 48,
+              ),
               const SizedBox(height: AppSpacing.s),
               const Text(
                 'No Spend Data Available',
@@ -103,9 +105,9 @@ class CostCard extends StatelessWidget {
                 Text(
                   'Total Channel Spend',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
                 if (isLoading)
                   const SizedBox(
@@ -119,16 +121,16 @@ class CostCard extends StatelessWidget {
             Text(
               data.totalCost.format(),
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
             const Divider(height: AppSpacing.l),
             Text(
               'Breakdown by Provider',
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: AppSpacing.s),
             ListView.builder(
@@ -148,8 +150,8 @@ class CostCard extends StatelessWidget {
                             row.provider == 'TWILIO'
                                 ? Icons.phonelink_ring
                                 : (row.provider == 'AWS_SNS'
-                                    ? Icons.cloud_queue
-                                    : Icons.settings_phone),
+                                      ? Icons.cloud_queue
+                                      : Icons.settings_phone),
                             size: 16,
                             color: Theme.of(context).colorScheme.secondary,
                           ),
@@ -161,9 +163,8 @@ class CostCard extends StatelessWidget {
                           const SizedBox(width: AppSpacing.xs),
                           Text(
                             '(${row.messageCount} msgs)',
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  color: Colors.grey.shade500,
-                                ),
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: Colors.grey.shade500),
                           ),
                         ],
                       ),

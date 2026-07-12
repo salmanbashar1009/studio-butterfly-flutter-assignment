@@ -47,7 +47,8 @@ class _SmsConsolePageState extends State<SmsConsolePage> {
   /// Handles "load more" pagination by listening to scroll notifications
   /// from any scrollable child (Mobile main view or Wide history view).
   bool _handleScrollNotification(ScrollNotification notification) {
-    if (notification.metrics.pixels >= notification.metrics.maxScrollExtent * 0.9) {
+    if (notification.metrics.pixels >=
+        notification.metrics.maxScrollExtent * 0.9) {
       _cubit.loadHistory();
     }
     return false;
@@ -97,13 +98,15 @@ class _SmsConsolePageState extends State<SmsConsolePage> {
           // This is safer than calling ScaffoldMessenger in build or didUpdateWidget.
           body: BlocListener<SmsConsoleCubit, SmsConsoleState>(
             listenWhen: (prev, curr) =>
-            prev.lastSentMessageId != curr.lastSentMessageId ||
+                prev.lastSentMessageId != curr.lastSentMessageId ||
                 prev.sendErrorMessage != curr.sendErrorMessage,
             listener: (context, state) {
               if (state.lastSentMessageId != null) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('SMS Accepted! ID: ${state.lastSentMessageId}'),
+                    content: Text(
+                      'SMS Accepted! ID: ${state.lastSentMessageId}',
+                    ),
                     backgroundColor: Colors.green.shade700,
                     behavior: SnackBarBehavior.floating,
                   ),
@@ -132,17 +135,19 @@ class _SmsConsolePageState extends State<SmsConsolePage> {
                           onRefresh: _onRefresh,
                           child: isWide
                               ? SmsConsoleWideLayout(
-                            historyScrollController: _historyScrollController,
-                            settingsKey: _settingsKey,
-                            sendFormKey: _sendFormKey,
-                            costCardKey: _costCardKey,
-                          )
+                                  historyScrollController:
+                                      _historyScrollController,
+                                  settingsKey: _settingsKey,
+                                  sendFormKey: _sendFormKey,
+                                  costCardKey: _costCardKey,
+                                )
                               : SmsConsoleMobileLayout(
-                            mobileScrollController: _mobileScrollController,
-                            settingsKey: _settingsKey,
-                            sendFormKey: _sendFormKey,
-                            costCardKey: _costCardKey,
-                          ),
+                                  mobileScrollController:
+                                      _mobileScrollController,
+                                  settingsKey: _settingsKey,
+                                  sendFormKey: _sendFormKey,
+                                  costCardKey: _costCardKey,
+                                ),
                         ),
                       );
                     },

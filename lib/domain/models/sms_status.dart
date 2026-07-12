@@ -20,7 +20,7 @@ enum SmsStatus {
   }
 
   String toApiString() => name.toUpperCase();
-  
+
   String get displayLabel {
     switch (this) {
       case SmsStatus.accepted:

@@ -31,7 +31,7 @@ void main() {
       final a = Money.fromDecimalString('0.0079', 'EUR');
       final b = Money.fromDecimalString('0.1500', 'EUR');
       final sum = a + b;
-      
+
       expect(sum.valueInBaseUnits, equals(1579)); // 79 + 1500
       expect(sum.toDecimalString(), equals('0.1579'));
     });
@@ -47,7 +47,7 @@ void main() {
     test('Should throw assertion error if adding different currencies', () {
       final eur = Money.fromDecimalString('1.0000', 'EUR');
       final usd = Money.fromDecimalString('1.0000', 'USD');
-      
+
       expect(() => eur + usd, throwsA(isA<AssertionError>()));
     });
   });

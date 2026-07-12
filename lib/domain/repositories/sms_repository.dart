@@ -12,7 +12,7 @@ abstract class SmsRepository {
   });
 
   /// Sends multiple messages in a single batch.
-  /// Note: body parameter is simplified here for the interface; 
+  /// Note: body parameter is simplified here for the interface;
   /// a production version would use a list of message objects.
   Future<void> sendBulk({
     required String tenantId,

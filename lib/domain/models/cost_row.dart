@@ -1,4 +1,3 @@
-
 import '../../core/utils/money.dart';
 
 class CostRow {

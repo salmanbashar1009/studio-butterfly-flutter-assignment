@@ -29,9 +29,7 @@ void main() {
 
   runApp(
     MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider<SmsRepository>.value(value: repository),
-      ],
+      providers: [RepositoryProvider<SmsRepository>.value(value: repository)],
       child: BlocProvider(
         create: (context) => SmsConsoleCubit(
           repository: repository,

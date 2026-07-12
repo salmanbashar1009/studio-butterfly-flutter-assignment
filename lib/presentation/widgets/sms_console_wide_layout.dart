@@ -56,8 +56,8 @@ class SmsConsoleWideLayout extends StatelessWidget {
                     Text(
                       'Message Transaction Log',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: AppSpacing.m),
                     Expanded(

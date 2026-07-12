@@ -13,7 +13,6 @@ import 'package:sms_console/domain/repositories/sms_repository.dart';
 import '../../core/utils/dev_server_mode.dart';
 import '../../core/utils/money.dart';
 
-
 class FakeSmsRepository implements SmsRepository {
   DevServerMode mode = DevServerMode.success;
   int latencyMs = 600;
@@ -81,9 +80,13 @@ class FakeSmsRepository implements SmsRepository {
       case DevServerMode.empty:
         return;
       case DevServerMode.networkFailure:
-        throw SmsNetworkException('No internet connection. Please verify your connection.');
+        throw SmsNetworkException(
+          'No internet connection. Please verify your connection.',
+        );
       case DevServerMode.timeout:
-        throw SmsNetworkException('Connection timeout. The server took too long to respond.');
+        throw SmsNetworkException(
+          'Connection timeout. The server took too long to respond.',
+        );
       case DevServerMode.serverError:
         throw SmsUpstreamException(
           'The upstream SMS provider gateway failed to respond (HTTP 502).',
@@ -98,8 +101,10 @@ class FakeSmsRepository implements SmsRepository {
 
   String _generateMessageId() {
     final random = math.Random();
-    final id =
-    List.generate(8, (_) => random.nextInt(16).toRadixString(16)).join();
+    final id = List.generate(
+      8,
+      (_) => random.nextInt(16).toRadixString(16),
+    ).join();
     return 'SM$id';
   }
 
@@ -134,8 +139,8 @@ class FakeSmsRepository implements SmsRepository {
     final Money rate = provider == 'AWS_SNS'
         ? Money.fromDecimalString('0.0460', currency)
         : (provider == 'VONAGE'
-        ? Money.fromDecimalString('0.0650', currency)
-        : Money.fromDecimalString('0.0750', currency));
+              ? Money.fromDecimalString('0.0650', currency)
+              : Money.fromDecimalString('0.0750', currency));
 
     final cost = rate * segmentCount;
 
@@ -196,7 +201,7 @@ class FakeSmsRepository implements SmsRepository {
     _pendingTimers.add(
       Timer(
         const Duration(seconds: 3),
-            () => _updateStatus(tenantId, messageId, SmsStatus.sent),
+        () => _updateStatus(tenantId, messageId, SmsStatus.sent),
       ),
     );
     _pendingTimers.add(
@@ -206,8 +211,9 @@ class FakeSmsRepository implements SmsRepository {
         final idx = list.indexWhere((m) => m.messageId == messageId);
         if (idx == -1) return;
         final old = list[idx];
-        final finalStatus =
-        old.recipient.contains('404') ? SmsStatus.failed : SmsStatus.delivered;
+        final finalStatus = old.recipient.contains('404')
+            ? SmsStatus.failed
+            : SmsStatus.delivered;
         _updateStatus(tenantId, messageId, finalStatus);
       }),
     );
@@ -266,11 +272,13 @@ class FakeSmsRepository implements SmsRepository {
     final List<CostRow> rows = [];
     Money totalCost = Money.zero(currency);
     providerCosts.forEach((provider, cost) {
-      rows.add(CostRow(
-        provider: provider,
-        totalCost: cost,
-        messageCount: providerCounts[provider]!,
-      ));
+      rows.add(
+        CostRow(
+          provider: provider,
+          totalCost: cost,
+          messageCount: providerCounts[provider]!,
+        ),
+      );
       totalCost = totalCost + cost;
     });
 
@@ -314,7 +322,9 @@ class FakeSmsRepository implements SmsRepository {
         ? base64.encode(utf8.encode(jsonEncode({'offset': end})))
         : null;
 
-    print('DEBUG getMessages - cursor: $cursor | offset: $offset | total messages: ${messages.length} | limit: $limit');
+    print(
+      'DEBUG getMessages - cursor: $cursor | offset: $offset | total messages: ${messages.length} | limit: $limit',
+    );
 
     return PaginatedMessages(items: sliced, nextCursor: nextCursor);
   }

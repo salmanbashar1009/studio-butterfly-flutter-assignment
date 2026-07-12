@@ -13,7 +13,7 @@ void main() {
         'status': 'ACCEPTED',
         'segmentCount': 2,
         'cost': '0.1500',
-        'currency': 'EUR'
+        'currency': 'EUR',
       };
 
       final response = SmsSendResponse.fromJson(json);
@@ -22,7 +22,10 @@ void main() {
       expect(response.provider, equals('TWILIO'));
       expect(response.status, equals(SmsStatus.accepted));
       expect(response.segmentCount, equals(2));
-      expect(response.cost.valueInBaseUnits, equals(1500)); // 0.1500 EUR -> 1500 base units
+      expect(
+        response.cost.valueInBaseUnits,
+        equals(1500),
+      ); // 0.1500 EUR -> 1500 base units
       expect(response.cost.currency, equals('EUR'));
     });
 
@@ -32,8 +35,8 @@ void main() {
         'totalCost': '12.4500',
         'rows': [
           {'provider': 'TWILIO', 'totalCost': '8.2500', 'messageCount': 110},
-          {'provider': 'AWS_SNS', 'totalCost': '4.2000', 'messageCount': 91}
-        ]
+          {'provider': 'AWS_SNS', 'totalCost': '4.2000', 'messageCount': 91},
+        ],
       };
 
       final breakdown = CostBreakdown.fromJson(json);
@@ -55,10 +58,10 @@ void main() {
             'status': 'DELIVERED',
             'segmentCount': 2,
             'cost': '0.1500',
-            'sentAt': '2026-07-09T08:14:22Z'
-          }
+            'sentAt': '2026-07-09T08:14:22Z',
+          },
         ],
-        'nextCursor': 'eyJvZmZzZXQiOjUwfQ'
+        'nextCursor': 'eyJvZmZzZXQiOjUwfQ',
       };
 
       final paginated = PaginatedMessages.fromJson(json, 'EUR');

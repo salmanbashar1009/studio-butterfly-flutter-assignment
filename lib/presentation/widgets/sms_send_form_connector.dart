@@ -18,7 +18,8 @@ class SmsSendFormConnector extends StatelessWidget {
           isLoading: state.sendStatus == SmsConsoleStatus.loading,
           lastSentMessageId: state.lastSentMessageId,
           sendErrorMessage: state.sendErrorMessage,
-          onSend: (to, body) => context.read<SmsConsoleCubit>().sendSms(to, body),
+          onSend: (to, body) =>
+              context.read<SmsConsoleCubit>().sendSms(to, body),
         );
       },
     );

@@ -5,8 +5,11 @@ import 'package:sms_console/domain/models/sms_message.dart';
 import '../../core/utils/dev_server_mode.dart';
 
 enum SmsConsoleStatus { initial, loading, success, failure }
+
 enum HistoryStatus { initial, loading, loaded, loadingMore, error }
+
 enum CostStatus { initial, loading, loaded, error }
+
 class _Unset {
   const _Unset();
 }

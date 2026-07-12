@@ -12,7 +12,7 @@ class HttpSmsRepository implements SmsRepository {
   final http.Client _client;
 
   HttpSmsRepository({required this.baseUrl, http.Client? client})
-      : _client = client ?? http.Client();
+    : _client = client ?? http.Client();
 
   Map<String, String> _headers(String tenantId, String token) {
     return {
@@ -24,17 +24,24 @@ class HttpSmsRepository implements SmsRepository {
 
   void _handleErrorResponse(http.Response response) {
     if (response.statusCode == 401 || response.statusCode == 403) {
-      throw SmsAuthenticationException('Authentication token has expired or is invalid (HTTP ${response.statusCode}).');
+      throw SmsAuthenticationException(
+        'Authentication token has expired or is invalid (HTTP ${response.statusCode}).',
+      );
     } else if (response.statusCode == 429) {
       final retryAfter = int.tryParse(response.headers['retry-after'] ?? '');
       throw SmsRateLimitException(
         retryAfterSeconds: retryAfter,
-        message: 'Rate limit exceeded. Please wait ${retryAfter ?? 5} seconds and try again.',
+        message:
+            'Rate limit exceeded. Please wait ${retryAfter ?? 5} seconds and try again.',
       );
     } else if (response.statusCode == 502) {
-      throw SmsUpstreamException('The upstream SMS gateway provider failed (HTTP 502).');
+      throw SmsUpstreamException(
+        'The upstream SMS gateway provider failed (HTTP 502).',
+      );
     } else if (response.statusCode >= 500) {
-      throw SmsServerException('Internal server error occurred on the SMS gateway (HTTP ${response.statusCode}).');
+      throw SmsServerException(
+        'Internal server error occurred on the SMS gateway (HTTP ${response.statusCode}).',
+      );
     } else if (response.statusCode == 400) {
       try {
         final body = jsonDecode(response.body) as Map<String, dynamic>;
@@ -46,7 +53,9 @@ class HttpSmsRepository implements SmsRepository {
         throw SmsException('Invalid request parameters (HTTP 400).');
       }
     } else {
-      throw SmsException('An unexpected error occurred (HTTP ${response.statusCode}).');
+      throw SmsException(
+        'An unexpected error occurred (HTTP ${response.statusCode}).',
+      );
     }
   }
 
@@ -84,7 +93,9 @@ class HttpSmsRepository implements SmsRepository {
     } on http.ClientException catch (e) {
       throw SmsNetworkException('Network communication failed: ${e.message}');
     } on TimeoutException {
-      throw SmsNetworkException('Request timed out. Please check your connection speed.');
+      throw SmsNetworkException(
+        'Request timed out. Please check your connection speed.',
+      );
     }
   }
 
@@ -125,15 +136,14 @@ class HttpSmsRepository implements SmsRepository {
     required DateTime from,
     required DateTime to,
   }) async {
-    final url = Uri.parse('$baseUrl/api/v1/sms/cost/breakdown'
-        '?from=${from.toIso8601String()}&to=${to.toIso8601String()}');
+    final url = Uri.parse(
+      '$baseUrl/api/v1/sms/cost/breakdown'
+      '?from=${from.toIso8601String()}&to=${to.toIso8601String()}',
+    );
 
     try {
       final response = await _client
-          .get(
-            url,
-            headers: _headers(tenantId, token),
-          )
+          .get(url, headers: _headers(tenantId, token))
           .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
@@ -146,7 +156,9 @@ class HttpSmsRepository implements SmsRepository {
     } on http.ClientException catch (e) {
       throw SmsNetworkException('Network communication failed: ${e.message}');
     } on TimeoutException {
-      throw SmsNetworkException('Request timed out. Please check your connection speed.');
+      throw SmsNetworkException(
+        'Request timed out. Please check your connection speed.',
+      );
     }
   }
 
@@ -158,14 +170,13 @@ class HttpSmsRepository implements SmsRepository {
     int limit = 50,
   }) async {
     final cursorQuery = cursor != null ? '&cursor=$cursor' : '';
-    final url = Uri.parse('$baseUrl/api/v1/sms/messages?limit=$limit$cursorQuery');
+    final url = Uri.parse(
+      '$baseUrl/api/v1/sms/messages?limit=$limit$cursorQuery',
+    );
 
     try {
       final response = await _client
-          .get(
-            url,
-            headers: _headers(tenantId, token),
-          )
+          .get(url, headers: _headers(tenantId, token))
           .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
@@ -178,7 +189,9 @@ class HttpSmsRepository implements SmsRepository {
     } on http.ClientException catch (e) {
       throw SmsNetworkException('Network communication failed: ${e.message}');
     } on TimeoutException {
-      throw SmsNetworkException('Request timed out. Please check your connection speed.');
+      throw SmsNetworkException(
+        'Request timed out. Please check your connection speed.',
+      );
     }
   }
 }

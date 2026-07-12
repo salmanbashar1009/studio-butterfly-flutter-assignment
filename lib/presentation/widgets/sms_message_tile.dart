@@ -6,10 +6,7 @@ import 'sms_status_chip.dart';
 class SmsMessageTile extends StatelessWidget {
   final SmsMessage message;
 
-  const SmsMessageTile({
-    super.key,
-    required this.message,
-  });
+  const SmsMessageTile({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +40,9 @@ class SmsMessageTile extends StatelessWidget {
             children: [
               Text(
                 'ID: ${message.messageId} • ${message.segmentCount} segment(s)',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey.shade500,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: Colors.grey.shade500),
               ),
               Text(
                 message.cost.format(),

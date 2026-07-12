@@ -67,15 +67,17 @@ void main() {
       final messagesList = repository.getTenantMessagesForTest(tenantA);
       messagesList.clear();
       for (int i = 0; i < 15; i++) {
-        messagesList.add(SmsMessage(
-          messageId: 'SEED_${i.toString().padLeft(3, '0')}',
-          recipient: '+491510000${i.toString().padLeft(2, '0')}',
-          status: SmsStatus.delivered,
-          segmentCount: 1,
-          cost: Money.fromDecimalString('0.075', 'EUR'),
-          sentAt: DateTime.now().subtract(Duration(minutes: 30 + i)),
-          provider: 'TWILIO',
-        ));
+        messagesList.add(
+          SmsMessage(
+            messageId: 'SEED_${i.toString().padLeft(3, '0')}',
+            recipient: '+491510000${i.toString().padLeft(2, '0')}',
+            status: SmsStatus.delivered,
+            segmentCount: 1,
+            cost: Money.fromDecimalString('0.075', 'EUR'),
+            sentAt: DateTime.now().subtract(Duration(minutes: 30 + i)),
+            provider: 'TWILIO',
+          ),
+        );
       }
       messagesList.sort((a, b) => b.sentAt.compareTo(a.sentAt));
 
@@ -85,7 +87,9 @@ void main() {
 
       // Load more - give time for state to update
       await cubit.loadHistory();
-      await Future.delayed(const Duration(milliseconds: 50)); // small delay for emit
+      await Future.delayed(
+        const Duration(milliseconds: 50),
+      ); // small delay for emit
 
       expect(
         cubit.state.messages.length,

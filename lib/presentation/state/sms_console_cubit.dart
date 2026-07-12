@@ -14,11 +14,13 @@ class SmsConsoleCubit extends Cubit<SmsConsoleState> {
     required this._repository,
     required String initialTenantId,
     required String initialToken,
-  })  : super(SmsConsoleState(
-          tenantId: initialTenantId,
-          token: initialToken,
-          serverMode: DevServerMode.success,
-        )) {
+  }) : super(
+         SmsConsoleState(
+           tenantId: initialTenantId,
+           token: initialToken,
+           serverMode: DevServerMode.success,
+         ),
+       ) {
     if (_repository is FakeSmsRepository) {
       _repository.mode = DevServerMode.success;
     }
@@ -28,33 +30,34 @@ class SmsConsoleCubit extends Cubit<SmsConsoleState> {
   void toggleTheme(Brightness visualBrightness) {
     if (isClosed) return;
     final bool isCurrentlyDark = visualBrightness == Brightness.dark;
-    emit(state.copyWith(
-      themeMode: isCurrentlyDark ? ThemeMode.light : ThemeMode.dark,
-    ));
+    emit(
+      state.copyWith(
+        themeMode: isCurrentlyDark ? ThemeMode.light : ThemeMode.dark,
+      ),
+    );
   }
 
   /// Changes the active tenant and reloads all data.
   /// Returns a Future that completes when reloads are finished.
   Future<void> changeTenant(String tenantId, String token) async {
     if (isClosed) return;
-    
+
     // Tenant Isolation Guard: Clean out all previous details immediately
-    emit(state.copyWith(
-      tenantId: tenantId,
-      token: token,
-      messages: [],
-      nextCursor: null,
-      costBreakdown: null,
-      sendStatus: SmsConsoleStatus.initial,
-      historyStatus: HistoryStatus.initial,
-      costStatus: CostStatus.initial,
-    ));
+    emit(
+      state.copyWith(
+        tenantId: tenantId,
+        token: token,
+        messages: [],
+        nextCursor: null,
+        costBreakdown: null,
+        sendStatus: SmsConsoleStatus.initial,
+        historyStatus: HistoryStatus.initial,
+        costStatus: CostStatus.initial,
+      ),
+    );
 
     // Refetch the data scopes immediately
-    await Future.wait([
-      loadCostBreakdown(),
-      loadHistory(isRefresh: true),
-    ]);
+    await Future.wait([loadCostBreakdown(), loadHistory(isRefresh: true)]);
   }
 
   /// Updates the fake server behavior mode.
@@ -63,14 +66,10 @@ class SmsConsoleCubit extends Cubit<SmsConsoleState> {
     if (_repository is FakeSmsRepository) {
       _repository.mode = mode;
     }
-    emit(state.copyWith(
-      serverMode: mode,
-      sendStatus: SmsConsoleStatus.initial,
-    ));
-    await Future.wait([
-      loadCostBreakdown(),
-      loadHistory(isRefresh: true),
-    ]);
+    emit(
+      state.copyWith(serverMode: mode, sendStatus: SmsConsoleStatus.initial),
+    );
+    await Future.wait([loadCostBreakdown(), loadHistory(isRefresh: true)]);
   }
 
   Future<void> loadCostBreakdown() async {
@@ -88,16 +87,17 @@ class SmsConsoleCubit extends Cubit<SmsConsoleState> {
       );
 
       if (isClosed) return;
-      emit(state.copyWith(
-        costStatus: CostStatus.loaded,
-        costBreakdown: breakdown,
-      ));
+      emit(
+        state.copyWith(costStatus: CostStatus.loaded, costBreakdown: breakdown),
+      );
     } catch (e) {
       if (isClosed) return;
-      emit(state.copyWith(
-        costStatus: CostStatus.error,
-        costErrorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          costStatus: CostStatus.error,
+          costErrorMessage: e.toString(),
+        ),
+      );
     }
   }
 
@@ -105,11 +105,13 @@ class SmsConsoleCubit extends Cubit<SmsConsoleState> {
     if (isClosed) return;
 
     if (isRefresh) {
-      emit(state.copyWith(
-        historyStatus: HistoryStatus.loading,
-        messages: const [],
-        nextCursor: null,
-      ));
+      emit(
+        state.copyWith(
+          historyStatus: HistoryStatus.loading,
+          messages: const [],
+          nextCursor: null,
+        ),
+      );
     } else {
       if (state.nextCursor == null) {
         return;
@@ -131,27 +133,33 @@ class SmsConsoleCubit extends Cubit<SmsConsoleState> {
           ? page.items
           : [...state.messages, ...page.items];
 
-      emit(state.copyWith(
-        historyStatus: HistoryStatus.loaded,
-        messages: updatedMessages,
-        nextCursor: page.nextCursor,
-      ));
+      emit(
+        state.copyWith(
+          historyStatus: HistoryStatus.loaded,
+          messages: updatedMessages,
+          nextCursor: page.nextCursor,
+        ),
+      );
     } catch (e) {
       if (isClosed) return;
-      emit(state.copyWith(
-        historyStatus: HistoryStatus.error,
-        historyErrorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          historyStatus: HistoryStatus.error,
+          historyErrorMessage: e.toString(),
+        ),
+      );
     }
   }
 
   Future<void> sendSms(String to, String body) async {
     if (isClosed) return;
-    emit(state.copyWith(
-      sendStatus: SmsConsoleStatus.loading,
-      sendErrorMessage: null,
-      lastSentMessageId: null,
-    ));
+    emit(
+      state.copyWith(
+        sendStatus: SmsConsoleStatus.loading,
+        sendErrorMessage: null,
+        lastSentMessageId: null,
+      ),
+    );
 
     try {
       final res = await _repository.sendSms(
@@ -162,26 +170,27 @@ class SmsConsoleCubit extends Cubit<SmsConsoleState> {
       );
 
       if (isClosed) return;
-      emit(state.copyWith(
-        sendStatus: SmsConsoleStatus.success,
-        lastSentMessageId: res.messageId,
-      ));
+      emit(
+        state.copyWith(
+          sendStatus: SmsConsoleStatus.success,
+          lastSentMessageId: res.messageId,
+        ),
+      );
 
       // Auto-reload to immediately reflect updated billing/transaction items
-      await Future.wait([
-        loadCostBreakdown(),
-        loadHistory(isRefresh: true),
-      ]);
+      await Future.wait([loadCostBreakdown(), loadHistory(isRefresh: true)]);
     } catch (e) {
       if (isClosed) return;
       String errMsg = e.toString();
       if (e is SmsValidationException) {
         errMsg = '${e.message} (ErrorCode: ${e.errorCode})';
       }
-      emit(state.copyWith(
-        sendStatus: SmsConsoleStatus.failure,
-        sendErrorMessage: errMsg,
-      ));
+      emit(
+        state.copyWith(
+          sendStatus: SmsConsoleStatus.failure,
+          sendErrorMessage: errMsg,
+        ),
+      );
     }
   }
 }

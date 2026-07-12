@@ -9,7 +9,8 @@ class SmsMessage {
   final int segmentCount;
   final Money cost;
   final DateTime sentAt;
-  final String provider; // Added to store the actual provider instead of inferring it
+  final String
+  provider; // Added to store the actual provider instead of inferring it
 
   SmsMessage({
     required this.messageId,
@@ -21,7 +22,10 @@ class SmsMessage {
     required this.provider,
   });
 
-  factory SmsMessage.fromJson(Map<String, dynamic> json, [String defaultCurrency = 'EUR']) {
+  factory SmsMessage.fromJson(
+    Map<String, dynamic> json, [
+    String defaultCurrency = 'EUR',
+  ]) {
     return SmsMessage(
       messageId: json['messageId'] as String,
       recipient: json['recipient'] as String,

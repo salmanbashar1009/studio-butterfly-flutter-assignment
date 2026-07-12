@@ -37,9 +37,9 @@ class SmsConsoleMobileLayout extends StatelessWidget {
             const SizedBox(height: AppSpacing.l),
             Text(
               'Message Transaction Log',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: AppSpacing.s),
             const SmsHistoryList(

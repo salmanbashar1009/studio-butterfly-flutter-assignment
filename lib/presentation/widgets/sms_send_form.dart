@@ -60,9 +60,9 @@ class _SmsSendFormState extends State<SmsSendForm> {
             children: [
               Text(
                 'Send Single SMS',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: AppSpacing.m),
 
@@ -126,13 +126,13 @@ class _SmsSendFormState extends State<SmsSendForm> {
                   onPressed: widget.isLoading ? null : _submitForm,
                   child: widget.isLoading
                       ? const SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.white,
-                    ),
-                  )
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
                       : const Text('Send SMS'),
                 ),
               ),
