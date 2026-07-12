@@ -20,22 +20,22 @@ class SmsRateLimitException extends SmsException {
 }
 
 class SmsAuthenticationException extends SmsException {
-  SmsAuthenticationException(String message) : super(message);
+  SmsAuthenticationException(super.message);
 }
 
 /// Represents HTTP 403 Forbidden - when a token is valid but doesn't have access to the tenant.
 class SmsForbiddenException extends SmsException {
-  SmsForbiddenException(String message) : super(message);
+  SmsForbiddenException(super.message);
 }
 
 class SmsUpstreamException extends SmsException {
-  SmsUpstreamException(String message) : super(message);
+  SmsUpstreamException(super.message);
 }
 
 class SmsNetworkException extends SmsException {
-  SmsNetworkException(String message) : super(message);
+  SmsNetworkException(super.message);
 }
 
 class SmsServerException extends SmsException {
-  SmsServerException(String message) : super(message);
+  SmsServerException(super.message);
 }

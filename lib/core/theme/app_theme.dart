@@ -32,7 +32,6 @@ class AppTheme {
       colorScheme: ColorScheme.fromSeed(
         seedColor: primaryLight,
         brightness: Brightness.light,
-        background: backgroundLight,
         surface: cardLight,
       ),
       scaffoldBackgroundColor: backgroundLight,
@@ -85,7 +84,6 @@ class AppTheme {
       colorScheme: ColorScheme.fromSeed(
         seedColor: primaryDark,
         brightness: Brightness.dark,
-        background: backgroundDark,
         surface: cardDark,
       ),
       scaffoldBackgroundColor: backgroundDark,

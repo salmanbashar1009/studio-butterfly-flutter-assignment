@@ -35,7 +35,7 @@ class SettingsPanel extends StatelessWidget {
                 const SizedBox(height: AppSpacing.s),
                 DropdownButtonFormField<String>(
                   isExpanded: true,
-                  value: state.tenantId,
+                  initialValue: state.tenantId,
                   decoration: const InputDecoration(
                     labelText: 'Active Tenant Scope',
                     prefixIcon: Icon(Icons.domain_outlined),
@@ -62,7 +62,7 @@ class SettingsPanel extends StatelessWidget {
                 const SizedBox(height: AppSpacing.s),
                 DropdownButtonFormField<DevServerMode>(
                   isExpanded: true,
-                  value: state.serverMode,
+                  initialValue: state.serverMode,
                   decoration: const InputDecoration(
                     labelText: 'API Stub Mode',
                     prefixIcon: Icon(Icons.bug_report_outlined),

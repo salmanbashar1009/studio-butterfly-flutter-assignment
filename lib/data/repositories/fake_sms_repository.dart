@@ -322,9 +322,6 @@ class FakeSmsRepository implements SmsRepository {
         ? base64.encode(utf8.encode(jsonEncode({'offset': end})))
         : null;
 
-    print(
-      'DEBUG getMessages - cursor: $cursor | offset: $offset | total messages: ${messages.length} | limit: $limit',
-    );
 
     return PaginatedMessages(items: sliced, nextCursor: nextCursor);
   }

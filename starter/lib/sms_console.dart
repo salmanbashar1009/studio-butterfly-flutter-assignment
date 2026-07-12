@@ -66,7 +66,6 @@ class _SmsConsolePageState extends State<SmsConsolePage> {
       final phone = phoneController.text;
       final body = bodyController.text;
 
-      print('Sending SMS to $phone: $body');
 
       final res = await http.post(
         Uri.parse('$kApiBase/api/v1/sms/send'),
@@ -83,6 +82,8 @@ class _SmsConsolePageState extends State<SmsConsolePage> {
       final cost = rateFor(provider) * segments;
 
       AppState.totalCost = AppState.totalCost + cost;
+
+      if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

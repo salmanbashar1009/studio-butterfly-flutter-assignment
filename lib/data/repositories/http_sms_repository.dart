@@ -71,7 +71,7 @@ class HttpSmsRepository implements SmsRepository {
     final payload = {
       'to': to,
       'body': body,
-      if (referenceId != null) 'referenceId': referenceId,
+      'referenceId': referenceId!,
     };
 
     try {
