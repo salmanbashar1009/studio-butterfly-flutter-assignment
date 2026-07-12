@@ -14,9 +14,9 @@ void main() {
   });
 
   tearDown(() {
-    fakeRepository
-        .dispose(); // ← this line is the fix; add it right after setUp
+    fakeRepository.dispose();
   });
+
   Widget createTestWidget() {
     return MaterialApp(
       home: MultiRepositoryProvider(
@@ -36,9 +36,24 @@ void main() {
   }
 
   group('SMS Send Flow Widget Tests', () {
+    // Large viewport to accommodate the new settings panel widgets and prevent hit-test failures
+    Future<void> setupViewport(WidgetTester tester) async {
+      const size = Size(1400, 1200);
+      tester.view.physicalSize = size;
+      tester.view.devicePixelRatio = 1.0;
+      // Explicitly set surface size to ensure hit testing works correctly for off-screen widgets
+      await tester.binding.setSurfaceSize(size);
+
+      addTearDown(() async {
+        tester.view.resetPhysicalSize();
+        await tester.binding.setSurfaceSize(null);
+      });
+    }
+
     testWidgets(
       'Should show validation error when phone number format is invalid',
       (WidgetTester tester) async {
+        await setupViewport(tester);
         await tester.pumpWidget(createTestWidget());
         await tester.pumpAndSettle();
 
@@ -52,6 +67,8 @@ void main() {
         );
         await tester.pump();
 
+        // Ensure button is visible before tapping
+        await tester.ensureVisible(find.byKey(const Key('send_sms_button')));
         await tester.tap(find.byKey(const Key('send_sms_button')));
         await tester.pump();
 
@@ -65,6 +82,7 @@ void main() {
     testWidgets(
       'Should handle server validation / API failure path gracefully',
       (WidgetTester tester) async {
+        await setupViewport(tester);
         await tester.pumpWidget(createTestWidget());
         await tester.pumpAndSettle();
 
@@ -80,6 +98,7 @@ void main() {
         );
         await tester.pump();
 
+        await tester.ensureVisible(find.byKey(const Key('send_sms_button')));
         await tester.tap(find.byKey(const Key('send_sms_button')));
         await tester.pump(const Duration(milliseconds: 700));
         await tester.pump();
@@ -94,6 +113,7 @@ void main() {
     testWidgets('Should successfully send SMS on correct inputs', (
       WidgetTester tester,
     ) async {
+      await setupViewport(tester);
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
@@ -110,6 +130,7 @@ void main() {
       );
       await tester.pump();
 
+      await tester.ensureVisible(find.byKey(const Key('send_sms_button')));
       await tester.tap(find.byKey(const Key('send_sms_button')));
       await tester.pump();
 
@@ -120,8 +141,12 @@ void main() {
 
       expect(find.textContaining('SMS Accepted! ID:'), findsOneWidget);
 
-      fakeRepository
-          .dispose(); // ← cancel status-transition timers before the test body returns
+      // Advance the clock by 7 seconds to let the background status-transition timers finish naturally.
+      // This is the most reliable way to clear "Pending timers" in widget tests.
+      await tester.pump(const Duration(seconds: 7));
+
+      // Explicitly dispose inside the test body to ensure all timers are cancelled before the framework's check.
+      fakeRepository.dispose();
     });
   });
 }
