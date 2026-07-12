@@ -13,14 +13,14 @@ class SmsConsolePage extends StatefulWidget {
 }
 
 class _SmsConsolePageState extends State<SmsConsolePage> {
-  // Use independent scroll controllers for the different layouts to avoid 
+  // Use independent scroll controllers for the different layouts to avoid
   // "multiple clients" errors during responsive transitions.
   final ScrollController _mobileScrollController = ScrollController();
   final ScrollController _historyScrollController = ScrollController();
-  
+
   late SmsConsoleCubit _cubit;
 
-  // GlobalKeys are critical here to preserve the State (and focus/input) of these 
+  // GlobalKeys are critical here to preserve the State (and focus/input) of these
   // complex widgets when the LayoutBuilder swaps between Wide and Mobile layouts.
   // Without these, resizing the window would cause the Form to lose focus and text.
   final GlobalKey _settingsKey = GlobalKey();
@@ -44,7 +44,7 @@ class _SmsConsolePageState extends State<SmsConsolePage> {
     super.dispose();
   }
 
-  /// Handles "load more" pagination by listening to scroll notifications 
+  /// Handles "load more" pagination by listening to scroll notifications
   /// from any scrollable child (Mobile main view or Wide history view).
   bool _handleScrollNotification(ScrollNotification notification) {
     if (notification.metrics.pixels >= notification.metrics.maxScrollExtent * 0.9) {
@@ -76,12 +76,12 @@ class _SmsConsolePageState extends State<SmsConsolePage> {
                 key: const Key('theme_toggle_button'),
                 tooltip: 'Toggle Light/Dark Theme',
                 icon: Icon(
-                  state.themeMode == ThemeMode.dark 
-                      ? Icons.light_mode_outlined 
+                  state.themeMode == ThemeMode.dark
+                      ? Icons.light_mode_outlined
                       : Icons.dark_mode_outlined,
                 ),
                 onPressed: () {
-                  // Pass the current visual brightness so the Cubit knows 
+                  // Pass the current visual brightness so the Cubit knows
                   // which theme to switch to when themeMode is 'system'.
                   _cubit.toggleTheme(Theme.of(context).brightness);
                 },
@@ -97,7 +97,7 @@ class _SmsConsolePageState extends State<SmsConsolePage> {
           // This is safer than calling ScaffoldMessenger in build or didUpdateWidget.
           body: BlocListener<SmsConsoleCubit, SmsConsoleState>(
             listenWhen: (prev, curr) =>
-                prev.lastSentMessageId != curr.lastSentMessageId ||
+            prev.lastSentMessageId != curr.lastSentMessageId ||
                 prev.sendErrorMessage != curr.sendErrorMessage,
             listener: (context, state) {
               if (state.lastSentMessageId != null) {
@@ -132,17 +132,17 @@ class _SmsConsolePageState extends State<SmsConsolePage> {
                           onRefresh: _onRefresh,
                           child: isWide
                               ? SmsConsoleWideLayout(
-                                  historyScrollController: _historyScrollController,
-                                  settingsKey: _settingsKey,
-                                  sendFormKey: _sendFormKey,
-                                  costCardKey: _costCardKey,
-                                )
+                            historyScrollController: _historyScrollController,
+                            settingsKey: _settingsKey,
+                            sendFormKey: _sendFormKey,
+                            costCardKey: _costCardKey,
+                          )
                               : SmsConsoleMobileLayout(
-                                  mobileScrollController: _mobileScrollController,
-                                  settingsKey: _settingsKey,
-                                  sendFormKey: _sendFormKey,
-                                  costCardKey: _costCardKey,
-                                ),
+                            mobileScrollController: _mobileScrollController,
+                            settingsKey: _settingsKey,
+                            sendFormKey: _sendFormKey,
+                            costCardKey: _costCardKey,
+                          ),
                         ),
                       );
                     },
