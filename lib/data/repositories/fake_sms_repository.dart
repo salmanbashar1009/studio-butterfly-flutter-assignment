@@ -322,7 +322,6 @@ class FakeSmsRepository implements SmsRepository {
         ? base64.encode(utf8.encode(jsonEncode({'offset': end})))
         : null;
 
-
     return PaginatedMessages(items: sliced, nextCursor: nextCursor);
   }
 

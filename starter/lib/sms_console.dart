@@ -66,7 +66,6 @@ class _SmsConsolePageState extends State<SmsConsolePage> {
       final phone = phoneController.text;
       final body = bodyController.text;
 
-
       final res = await http.post(
         Uri.parse('$kApiBase/api/v1/sms/send'),
         headers: {

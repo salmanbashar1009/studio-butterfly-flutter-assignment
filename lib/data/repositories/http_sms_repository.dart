@@ -68,11 +68,7 @@ class HttpSmsRepository implements SmsRepository {
     String? referenceId,
   }) async {
     final url = Uri.parse('$baseUrl/api/v1/sms/send');
-    final payload = {
-      'to': to,
-      'body': body,
-      'referenceId': referenceId!,
-    };
+    final payload = {'to': to, 'body': body, 'referenceId': referenceId!};
 
     try {
       final response = await _client
