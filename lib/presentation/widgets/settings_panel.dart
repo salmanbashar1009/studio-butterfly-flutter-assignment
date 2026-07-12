@@ -79,6 +79,10 @@ class SettingsPanel extends StatelessWidget {
                     }
                   },
                 ),
+                const SizedBox(height: AppSpacing.s),
+                const Text(
+                  'Note: Stub mode is available only for testing and review. It is not included in the production app.',
+                )
               ],
             ),
           ),
