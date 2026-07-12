@@ -42,5 +42,5 @@ void main() {
       find.byType(SmsConsolePage),
       matchesGoldenFile('goldens/main_console_desktop.png'),
     );
-  });
+  }, tags: 'golden');
 }
